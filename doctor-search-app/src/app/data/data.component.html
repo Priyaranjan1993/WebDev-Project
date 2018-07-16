@@ -1,0 +1,29 @@
+
+<a routerLink="/">Home</a>
+
+<table *ngIf="docProfileInfo">
+  <tr>
+    <th>Image</th>
+    <th>First Name</th>
+    <th>Middle Name</th>
+    <th>Last Name</th>
+    <th>Full Name</th>
+    <th>Title</th>
+    <th>Gender</th>
+    <th>Bio</th>
+
+  </tr>
+  <tr>
+    <td><img src={{docProfileInfo.profile.image_url}} alt="Image" style="width:100px;height:100px;"></td>
+    <td>{{docProfileInfo.profile.first_name}}</td>
+    <td>{{docProfileInfo.profile.middle_name}}</td>
+    <td>{{docProfileInfo.profile.last_name}}</td>
+    <td>{{docProfileInfo.profile.slug}}</td>
+    <td>{{docProfileInfo.profile.title}}</td>
+    <td>{{docProfileInfo.profile.gender}}</td>
+    <td>{{docProfileInfo.profile.bio}}</td>
+
+
+  </tr>
+</table>
+

@@ -1,0 +1,8 @@
+{
+  "/2016-03-01/*": {
+    "target": "https://api.betterdoctor.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel":"debug"
+  }
+}

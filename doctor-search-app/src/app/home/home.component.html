@@ -1,0 +1,63 @@
+
+<div class="form-row align-items-center">
+  <img src="../../assets/images/1.svg" alt="Home pic" id="home_image">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="formControl"
+             [matAutocomplete]="auto" [(ngModel)]="countryField">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+          {{country}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="State" aria-label="State" matInput [formControl]="formControl2"
+             [matAutocomplete]="autoTest" [(ngModel)]="stateField">
+      <mat-autocomplete autoActiveFirstOption #autoTest="matAutocomplete">
+        <mat-option *ngFor="let state of filteredStates | async" [value]="state">
+          {{state}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Speciality" aria-label="Speciality" matInput [formControl]="formControl3"
+             [matAutocomplete]="autoTests" [(ngModel)]="specialityField" required >
+      <mat-autocomplete autoActiveFirstOption #autoTests="matAutocomplete">
+        <mat-option *ngFor="let sp of filteredSpeciality | async" [value]="sp">
+          {{sp}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="What is the disease" [(ngModel)]="diseaseField"
+             [ngModelOptions]="{standalone: true}"
+             (change)="change()" required >
+    </mat-form-field>
+    <p><span id="red">**</span> Results are only for US doctors. Location-wise search will be done in next release.</p>
+    <button mat-raised-button id="search-doc"
+            matTooltip="Only US based results are shown"
+            (click)="onClickMe()">Search</button>
+    <button mat-raised-button
+            matTooltip="Find my location"
+            id="location-box-button" (click)="showPosition()">Locate me</button>
+    <div id="result">
+    </div>
+    <table *ngIf="doctorDetailedInfo.length !== 0">
+      <tr>
+        <th>Name</th>
+      </tr>
+      <tr *ngFor=" let doc of doctorDetailedInfo">
+        <td>{{doc.profile.slug}}</td>
+        <td>
+          <button mat-raised-button id="info-doc" (click)="findDocById(doc.uid)">Find Info</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+
+</div>

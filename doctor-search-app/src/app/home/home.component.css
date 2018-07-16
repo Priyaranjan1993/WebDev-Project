@@ -1,0 +1,28 @@
+#home_image{
+  position: relative;
+  margin: 0% 0 0 14%;
+  width: 42%;
+  font-size: 124px;
+}
+
+/*#location-box-button{
+  margin: -5px 0 0 0px;
+}*/
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+#location-box-button{
+  margin: 0 0 0 8px;
+}
+
+#red{
+  color: red;
+}
