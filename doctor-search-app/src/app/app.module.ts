@@ -4,6 +4,19 @@ import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {RoutePath} from './app.routing';
+import {AngularFileUploaderModule} from 'angular-file-uploader';
+
+import {AppComponent} from './app.component';
+import {HomeComponent} from './home/home.component';
+import {DataComponent, AppointmentDialogComponent} from './data/data.component';
+import {LoginComponent, NotificationComponent} from './login/login.component';
+import {ProfileComponent, UserInfoDialogComponent} from './profile/profile.component';
+import {AdminComponent} from './admin/admin.component';
+import {UploadService} from './services/upload.service';
+import {DetailsUploadComponent} from './details-upload/details-upload.component';
+import {ListUploadComponent} from './list-upload/list-upload.component';
+import {FormUploadComponent} from './form-upload/form-upload.component';
 
 
 import {CdkTableModule} from '@angular/cdk/table';
@@ -47,11 +60,6 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
-
-
-import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
-import { DataComponent } from './data/data.component';
 
 @NgModule({
   exports: [
@@ -98,10 +106,20 @@ export class DemoMaterialModule {
 }
 
 @NgModule({
+  entryComponents: [NotificationComponent, AppointmentDialogComponent, UserInfoDialogComponent],
   declarations: [
     AppComponent,
     HomeComponent,
-    DataComponent
+    DataComponent,
+    LoginComponent,
+    ProfileComponent,
+    NotificationComponent,
+    AdminComponent,
+    DetailsUploadComponent,
+    ListUploadComponent,
+    FormUploadComponent,
+    AppointmentDialogComponent,
+    UserInfoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -112,6 +130,8 @@ export class DemoMaterialModule {
     MatNativeDateModule,
     ReactiveFormsModule,
     AngularFontAwesomeModule,
+    RoutePath,
+    AngularFileUploaderModule,
     RouterModule.forRoot([
       {
         path: '',
@@ -122,7 +142,7 @@ export class DemoMaterialModule {
         component: DataComponent
       }])
   ],
-  providers: [],
+  providers: [UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

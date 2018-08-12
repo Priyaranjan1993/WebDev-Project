@@ -1,9 +1,44 @@
-import {Component, OnInit, AfterContentInit} from '@angular/core';
+import {Component, OnInit, AfterContentInit, ViewChild, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+
+import {merge, Observable, of as observableOf} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+
+import {MatPaginator} from '@angular/material';
+
+export interface Gender {
+  value: string;
+  viewValue: string;
+}
+
+export interface DoctorApi {
+  meta: DoctorMeta[];
+  data: DataAPI[];
+}
+
+export interface DataAPI {
+  profile: DoctorData[];
+  uid: string;
+}
+
+export interface DoctorMeta {
+  total: number;
+  count: number;
+  skip: number;
+}
+
+export interface DoctorData {
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  slug: string;
+  title: string;
+  gender: string;
+  bio: string;
+  image_url: string;
+}
 
 @Component({
   selector: 'app-home',
@@ -22,6 +57,34 @@ export class HomeComponent implements OnInit, AfterContentInit {
   doctors: string[] = [];
   doctorsId: string[] = [];
   doctorDetailedInfo: string[] = [];
+  resultsLength;
+  baseUrl: String = 'http://localhost:4200';
+
+
+  resultsMeta = [];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  isLoadingAPIResults = true;
+  apiData: DataAPI[] = [];
+  apiDocData;
+  tableColumns: string[] = ['firstName', 'middleName', 'lastName', 'gender', 'title', 'action'];
+  doctorDatabase: DoctorApiHttpDao | null;
+  showTable = true;
+
+
+  general = {
+    disease: '',
+    firstName: '',
+    lastName: '',
+    name: '',
+    gender: '',
+  };
+
+  gender: Gender[] = [
+    {value: 'Male', viewValue: 'Male'},
+    {value: 'Female', viewValue: 'Female'}
+  ];
 
 
   countries: string[] = ['Afghanistan',
@@ -324,13 +387,37 @@ export class HomeComponent implements OnInit, AfterContentInit {
     headers: {'Access-Control-Allow-Origin': '*'}
   };
 
+  lat;
+  long;
+  showFile = false;
+  fileUploads: Observable<Object>;
+  @Input() fileUpload: string;
+
   constructor(private http: HttpClient, private router: Router) {
   }
 
+  afuConfig = {
+    multiple: true,
+    formatsAllowed: '.jpg,.png',
+    maxSize: '20',
+    uploadAPI: {
+      url: '../../assets',
+      headers: {
+        'Content-Type': 'text/plain;charset=UTF-8'
+      }
+    },
+    theme: 'dragNDrop',
+    hideProgressBar: true,
+    hideResetBtn: true,
+    hideSelectBtn: true
+  };
+
+  DocUpload(val) {
+    alert(val);
+  }
 
   ngOnInit() {
     this.fetchSpeciality();
-
   }
 
   ngAfterContentInit() {
@@ -394,6 +481,37 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
   }
 
+  generalSearch(model) {
+    console.log(model);
+    this.showTable = false;
+    this.doctorDatabase = new DoctorApiHttpDao(this.http);
+    merge(this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingAPIResults = true;
+          return this.doctorDatabase!.generalSearch(this.long, this.lat, this.general, this.paginator.pageIndex);
+        }),
+        map(val => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingAPIResults = false;
+          this.resultsMeta = val.meta;
+          this.resultsLength = val.meta;
+
+          return val;
+        }),
+        catchError(() => {
+          this.isLoadingAPIResults = false;
+          // Catch if the GitHub API has reached its rate limit. Return empty data.
+          return observableOf([]);
+        })
+      ).subscribe(val => {
+      console.log(val);
+      /*this.apiData = val.data;*/
+      this.apiDocData = val;
+    });
+  }
+
   findDocById(args) {
     this.router.navigate(['/data', {id: args}]);
   }
@@ -434,10 +552,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
   showPosition() {
     let result;
-    // Store the element where the page displays the result
     result = document.getElementById('result');
 
-    // If geolocation is available, try to get the visitor's position
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.successCallback.bind(this), this.errorCallback.bind(this));
       result.innerHTML = 'Getting the position information...';
@@ -446,25 +562,19 @@ export class HomeComponent implements OnInit, AfterContentInit {
     }
   }
 
-  // Define callback function for successful attempt
   successCallback(position) {
     let result;
-    let lat;
-    let long;
     console.log(this);
-    // Store the element where the page displays the result
     result = document.getElementById('result');
-    lat = position.coords.latitude;
-    long = position.coords.longitude;
-    console.log(lat);
-    console.log(long);
-    this.findLocation(lat, long);
+    this.lat = position.coords.latitude;
+    this.long = position.coords.longitude;
+    console.log(this.lat);
+    console.log(this.long);
+    this.findLocation(this.lat, this.long);
   }
 
-  // Define callback function for failed attempt
   errorCallback(error) {
     let result;
-    // Store the element where the page displays the result
     result = document.getElementById('result');
     if (error.code === 1) {
       result.innerHTML = 'You\'ve decided not to share your position, but it\'s OK. We won\'t ask you again.';
@@ -475,6 +585,35 @@ export class HomeComponent implements OnInit, AfterContentInit {
     } else {
       result.innerHTML = 'Geolocation failed due to unknown error.';
     }
+  }
+}
+
+
+export class DoctorApiHttpDao {
+  constructor(private http: HttpClient) {
+  }
+
+  getDoctorInfo(page: number): Observable<DoctorApi> {
+    // alert('sorting-- ' + sort);
+    // alert('order-- ' + order);
+    const href = 'https://api.betterdoctor.com/2016-03-01/doctors';
+    const reqUrl =
+      `${href}?query=Cancer&location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&gender=male&sort
+      =distance-asc&fields=profile%2Cuid&skip=${page + 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
+
+
+    return this.http.get<DoctorApi>(reqUrl);
+  }
+
+  generalSearch(longitude: string, latitude: string, model, page: number): Observable<DoctorApi> {
+    const href = 'https://api.betterdoctor.com/2016-03-01/doctors';
+    let reqUrl;
+    if (model.gender === '') {
+      reqUrl = `${href}?name=${model.name}&first_name=${model.firstName}&last_name=${model.lastName}&query=${model.disease}&user_location=${longitude}%2C${latitude}&sort=distance-asc&fields=profile%2Cuid&skip=${page + 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
+    } else {
+      reqUrl = `${href}?name=${model.name}&first_name=${model.firstName}&last_name=${model.lastName}&query=${model.disease}&user_location=${longitude}%2C${latitude}&gender=${model.gender}&sort=distance-asc&fields=profile%2Cuid&skip=${page + 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
+    }
+    return this.http.get<DoctorApi>(reqUrl);
   }
 
 }

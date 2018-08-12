@@ -1,7 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">White Board</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+          aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">Profile</a>
+      </li>
+    </ul>
+    <!--    <span id="username">{{profile.username}}</span>
+        <span class="navbar-text">
+          <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+        </span>-->
+  </div>
+</nav>
 
-<a routerLink="/">Home</a>
-
-<table *ngIf="docProfileInfo">
+<!--<table *ngIf="docProfileInfo">
   <tr>
     <th>Image</th>
     <th>First Name</th>
@@ -25,5 +44,23 @@
 
 
   </tr>
-</table>
+</table>-->
+
+
+<img src={{docProfileInfo.profile.image_url}} alt="Image" style="width:100px;height:100px;" id="rounded-image">
+<hr class="hr-text" data-content="Information">
+<div id="nameField">
+  <span id="firstName">{{docProfileInfo.profile.first_name}}</span>
+  <span id="middleName">{{docProfileInfo.profile.middle_name}}</span>
+  <span id="lastName">{{docProfileInfo.profile.last_name}}</span>
+  <span id="title">({{docProfileInfo.profile.title}})</span>
+</div>
+
+<div id="bioDiv">
+  <span id="bioDivSpan">{{docProfileInfo.profile.bio}}</span>
+</div>
+
+<button mat-raised-button id="align-centre" (click)="createAppointment(docProfileInfo)">Request
+  Appointment
+</button>
 
