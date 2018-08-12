@@ -41,6 +41,7 @@ export class ProfileComponent implements OnInit {
   userId;
   userRole;
   uid;
+  maxDate = new Date();
 
 /*  $: any;*/
 

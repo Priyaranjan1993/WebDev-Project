@@ -82,8 +82,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
   };
 
   gender: Gender[] = [
-    {value: 'Male', viewValue: 'Male'},
-    {value: 'Female', viewValue: 'Female'}
+    {value: 'male', viewValue: 'Male'},
+    {value: 'female', viewValue: 'Female'}
   ];
 
 

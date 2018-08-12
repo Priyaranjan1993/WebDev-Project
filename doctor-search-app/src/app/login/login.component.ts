@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     this.register = false;
   }
 
-  showDocUID() {
+  showDocUID(val) {
     this.docCheck = !this.docCheck;
   }
 

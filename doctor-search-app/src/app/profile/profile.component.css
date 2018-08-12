@@ -1,5 +1,5 @@
 #profile-save-btn {
-  margin: 0 0 4% 44%;
+  margin: 4% 0 4% 44%;
   width: 10%;
 }
 
@@ -10,8 +10,15 @@
   font-size: 18px;
   float: right;
   position: relative;
-  right: 296px;
-  top: 24px;
+  right: 260px;
+  top: 27px;
+}
+
+.profileIcon {
+  float: right;
+  position: relative;
+  right: 339px;
+  top: 27px;
 }
 
 .green {
@@ -32,7 +39,7 @@
   border: 1px solid white;
 }
 
-#zero-padding{
+#zero-padding {
   padding: 0;
 }
 
@@ -52,6 +59,10 @@
 
 #logoutBtn {
   float: right;
+}
+
+.extra-padding {
+  padding: 0 10% !important;
 }
 
 .example-card {
@@ -105,6 +116,6 @@
   color: darkgrey;
 }
 
-.full-width{
+.full-width {
   width: 100%;
 }

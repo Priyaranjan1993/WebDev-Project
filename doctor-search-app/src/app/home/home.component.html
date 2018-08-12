@@ -7,13 +7,16 @@
   <mat-tab-group [color]="primary" [backgroundColor]="primary" id="tab-width" id="child2">
     <mat-tab label="General Search">
       <form class="example-form" nonvalidate #generalForm="ngForm">
+
+        <hr class="hr-text" data-content="Fill both the fields">
+
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <mat-label>Country</mat-label>
           <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="formControl"
                  [matAutocomplete]="auto" [(ngModel)]="countryField">
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
-            Works only for USA
+            The country needs to be USA for the API to work (Use Locate me Button)
           </mat-hint>
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
@@ -28,7 +31,7 @@
           <mat-label>State</mat-label>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
-            Works only for USA
+            The state needs to be part of USA for the API to work (Use Locate me Button)
           </mat-hint>
           <mat-autocomplete autoActiveFirstOption #autoTest="matAutocomplete">
             <mat-option *ngFor="let state of filteredStates | async" [value]="state">
@@ -36,6 +39,8 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+
+        <hr class="hr-text" data-content="Choose and fill atleast one field">
 
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <mat-label>Disease</mat-label>
@@ -114,13 +119,16 @@
     </mat-tab>
     <mat-tab label="Specific Search">
       <form class="example-form">
+
+        <hr class="hr-text" data-content="Fill both the fields">
+
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <mat-label>Country</mat-label>
           <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="formControl"
                  [matAutocomplete]="auto" [(ngModel)]="countryField">
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
-            Works only for USA
+            The country needs to be USA for the API to work (Use Locate me Button)
           </mat-hint>
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
@@ -135,7 +143,7 @@
           <mat-label>State</mat-label>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
-            Works only for USA
+            The state needs to be part of USA for the API to work (Use Locate me Button)
           </mat-hint>
           <mat-autocomplete autoActiveFirstOption #autoTest="matAutocomplete">
             <mat-option *ngFor="let state of filteredStates | async" [value]="state">
@@ -143,6 +151,8 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+
+        <hr class="hr-text" data-content="Fill Speciality followed by what disease of the speciality ">
 
         <mat-form-field appearance="outline" class="example-full-width">
           <mat-label>Speciality</mat-label>

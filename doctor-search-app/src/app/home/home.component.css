@@ -1,12 +1,10 @@
 #home_image {
   position: relative;
-  margin: 0% 0 0 14%;
+  margin: 8% 0 0 14%;
   width: 82%;
+  border: 1px solid white;
+  border-radius: 243px;
 }
-
-/*#location-box-button{
-  margin: -5px 0 0 0px;
-}*/
 
 .example-form {
   min-width: 150px;
@@ -20,6 +18,10 @@
 
 #location-box-button {
   margin: 0 0 0 8px;
+}
+
+#search-doc{
+  margin: 0 0 16px 0px;
 }
 
 #red {
@@ -55,20 +57,6 @@
   width: 33%;
   margin: 20px;
 }
-
-/*table {
-  width: 100%;
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-td, th {
-  width: 25%;
-}*/
-
 
 .example-container {
   position: relative;

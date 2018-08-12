@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpResponse, HttpEventType} from '@angular/common/http';
 import {UploadService} from '../services/upload.service';
 
+declare var $: any;
 @Component({
   selector: 'app-form-upload',
   templateUrl: './form-upload.component.html',
@@ -33,10 +34,21 @@ export class FormUploadComponent implements OnInit {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {
         console.log('File is completely uploaded!');
+        this.success();
       }
     });
 
     this.selectedFiles = undefined;
+  }
+
+  success() {
+    $.toast({
+      heading: 'Success',
+      text: 'File uploaded successfully',
+      position: 'top-right',
+      hideAfter: 4000,
+      icon: 'success'
+    });
   }
 
 }

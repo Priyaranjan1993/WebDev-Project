@@ -6,19 +6,20 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
+      <li class="nav-item extra-padding">
         <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item active extra-padding">
         <a class="nav-link" href="/profile">
           <span *ngIf="userRole==='user' || userRole==='admin'">Profile</span>
           <span *ngIf="userRole==='doctor'">Manage</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" class="extra-padding">
         <a class="nav-link" *ngIf="profile.username === 'admin'" href="/admin">Admin</a>
       </li>
     </ul>
+    <mat-icon matSuffix class="profileIcon">account_circle</mat-icon>
     <span id="username">{{profile.username}}</span>
     <span class="navbar-text" id="logoutBtn">
       <button mat-raised-button color="primary" (click)="logout()">Logout</button>
@@ -26,6 +27,7 @@
   </div>
 </nav>
 
+<hr class="hr-text" data-content="Profile Information">
 <form nonvalidate #profileForm="ngForm" *ngIf="userRole==='user' || userRole==='admin'">
   <div class="form-row">
     <p class="col-4">
@@ -80,7 +82,7 @@
       </mat-form-field>
     </p>
 
-    <p class="col-6">
+    <p class="col-4">
       <mat-form-field class=" col" appearance="standard">
         <mat-label>Address</mat-label>
         <input [(ngModel)]="profile.address" #address="ngModel" name="address" matInput
@@ -89,9 +91,24 @@
         <mat-hint>Please enter detailed address</mat-hint>
       </mat-form-field>
     </p>
+
+    <p class="col-2">
+      <mat-form-field appearance="standard" class="example-full-width hint-padding" class="full-width">
+        <input [matDatepicker]="picker" [max]="maxDate" placeholder="Enter Date of Birth"
+               matInput
+               [(ngModel)]="profile.dateOfBirth" name="requested" #requested="ngModel"
+               disabled>
+        <mat-label>Date of Birth</mat-label>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+        <mat-hint align="start">
+          Date on which you were born.
+        </mat-hint>
+      </mat-form-field>
+    </p>
   </div>
 
-  <button mat-raised-button color="primary" id="profile-save-btn" (click)="saveProfile(profile)">Save</button>
+  <button mat-raised-button color="primary" id="profile-save-btn" (click)="saveProfile(profile)">Update Profile</button>
 </form>
 
 
@@ -107,6 +124,7 @@
 
 <hr class="hr-text" data-content="Appointments" *ngIf="userRole==='user'">
 <div class="container-fluid" *ngIf="userRole==='user'">
+  <span *ngIf="appointmentList.length === 0" class="watermark">No Appointments yet</span>
   <div class="row">
     <div *ngFor="let app of appointmentList" class="tiles">
       <mat-card class="example-card">
