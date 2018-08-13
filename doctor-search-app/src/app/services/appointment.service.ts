@@ -10,18 +10,17 @@ export class AppointmentService {
   constructor() {
   }
 
-  createAppointment(appointment, docID) {
+  createAppointment(appointment, docID, userId) {
     this.newAppointment = {
       doctorName: appointment.doctorName,
       doctorUID: docID,
       requested: appointment.requested,
       confirmation: 'false',
       comments: '',
-      name : appointment.appointmentName
+      name: appointment.appointmentName
     };
-    return fetch(this.appointmentUrl, {
+    return fetch(this.appointmentUrl + '/' + userId, {
       method: 'post',
-      credentials: 'include',
       body: JSON.stringify(this.newAppointment),
       headers: {
         'content-type': 'application/json'

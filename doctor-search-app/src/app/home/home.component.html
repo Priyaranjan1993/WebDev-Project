@@ -7,16 +7,16 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active extra-padding">
-        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" (click)="goHome()">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item extra-padding" *ngIf="userRole==='user' || userRole==='admin' || userRole==='doctor'">
-        <a class="nav-link" href="/profile">
+        <a class="nav-link" (click)="goProfile()">
           <span *ngIf="userRole==='user' || userRole==='admin'">Profile</span>
           <span *ngIf="userRole==='doctor'">Manage</span>
         </a>
       </li>
       <li class="nav-item" class="extra-padding" *ngIf="userRole==='admin'">
-        <a class="nav-link" *ngIf="profile.username === 'admin'" href="/admin">Admin</a>
+        <a class="nav-link" *ngIf="profile.username === 'admin'" (click)="goAdmin()">Admin</a>
       </li>
     </ul>
     <span id="username"
@@ -39,7 +39,7 @@
     <img src="../../assets/images/1.svg" alt="Home pic" id="home_image">
   </div>
 
-  <mat-tab-group [color]="primary" [backgroundColor]="primary" id="tab-width" id="child2">
+  <mat-tab-group [color]="'primary'" [backgroundColor]="'primary'" id="tab-width" id="child2">
     <mat-tab label="General Search">
       <form class="example-form" nonvalidate #generalForm="ngForm">
 
@@ -139,7 +139,7 @@
         </button>
         <div id="result">
         </div>
-        <table *ngIf="doctorDetailedInfo.length !== 0">
+   <!--     <table *ngIf="doctorDetailedInfo.length !== 0">
           <tr>
             <th>Name</th>
           </tr>
@@ -149,7 +149,7 @@
               <button mat-raised-button id="info-doc" (click)="findDocById(doc.uid)">Find Info</button>
             </td>
           </tr>
-        </table>
+        </table>-->
       </form>
     </mat-tab>
     <mat-tab label="Specific Search">
@@ -217,7 +217,7 @@
         </button>
         <div id="result">
         </div>
-        <table *ngIf="doctorDetailedInfo.length !== 0">
+<!--        <table *ngIf="doctorDetailedInfo.length !== 0">
           <tr>
             <th>Name</th>
           </tr>
@@ -227,7 +227,7 @@
               <button mat-raised-button id="info-doc" (click)="findDocById(doc.uid)">Find Info</button>
             </td>
           </tr>
-        </table>
+        </table>-->
       </form>
     </mat-tab>
   </mat-tab-group>

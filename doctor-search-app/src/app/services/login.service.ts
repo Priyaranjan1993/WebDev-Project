@@ -19,7 +19,6 @@ export class LoginService {
   forgotPassword(userEmail) {
     return fetch(this.loginURL + '/forgot', {
       method: 'post',
-      credentials: 'same-origin',
       body: JSON.stringify(userEmail),
       headers: {
         'content-type': 'application/json',
@@ -31,12 +30,11 @@ export class LoginService {
   }
 
   fetchAppointments(id) {
-    return fetch(this.appointmentUrl, {
+    return fetch(this.appointmentUrl + '/' + id, {
       headers: {
         'content-type': 'application/json'
       },
-      method: 'GET',
-      credentials: 'include'
+      method: 'GET'
     })
       .then(response => {
         console.log(response);
@@ -45,12 +43,11 @@ export class LoginService {
   }
 
   fetchDocAppointments(uid) {
-    return fetch(this.appointmentUrl + '/' + uid, {
+    return fetch(this.appointmentUrl + '/doctor/' + uid, {
       headers: {
         'content-type': 'application/json'
       },
-      method: 'GET',
-      credentials: 'include'
+      method: 'GET'
     })
       .then(response => {
         console.log(response);
@@ -64,8 +61,7 @@ export class LoginService {
         'content-type': 'application/json'
       },
       method: 'PUT',
-      body: JSON.stringify(data),
-      credentials: 'include'
+      body: JSON.stringify(data)
     })
       .then(response => response.json());
   }
@@ -112,7 +108,7 @@ export class LoginService {
   login(user) {
     return fetch(this.loginURL, {
       method: 'post',
-      credentials: 'include',
+      credentials : 'include',
       body: JSON.stringify({username: user.username, password: user.password}),
       headers: {
         'content-type': 'application/json'
@@ -143,7 +139,7 @@ export class LoginService {
   logout() {
     return fetch(this.url + '/logout', {
       method: 'post',
-      credentials: 'same-origin',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       }

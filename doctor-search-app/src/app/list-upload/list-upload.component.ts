@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {UploadService} from '../services/upload.service';
 import {Observable} from 'rxjs';
 
@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 export class ListUploadComponent implements OnInit {
   showFile = false;
   fileUploads;
+  @Input() userId: String;
 
   constructor(private upload: UploadService) {
   }
@@ -22,7 +23,7 @@ export class ListUploadComponent implements OnInit {
     this.showFile = enable;
 
     if (enable) {
-      this.upload.getFiles()
+      this.upload.getFiles(this.userId)
         .then((response) => {
           console.log(response);
           this.fileUploads = response;
@@ -32,7 +33,7 @@ export class ListUploadComponent implements OnInit {
 
   delete(id) {
     console.log(id);
-    this.upload.delete(id)
+    this.upload.delete(id, this.userId)
       .then((response) => {
         console.log(response);
         this.showFiles(true);

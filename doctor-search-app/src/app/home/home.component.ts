@@ -2,7 +2,7 @@ import {Component, OnInit, AfterContentInit, ViewChild, Input} from '@angular/co
 import {FormControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {LoginService} from '../services/login.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProfileService} from '../services/profile.service';
 
 declare var $: any;
@@ -404,7 +404,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   @Input() fileUpload: string;
 
   constructor(private http: HttpClient, private router: Router, private loginService: LoginService,
-              private profileService: ProfileService) {
+              private profileService: ProfileService, private route: ActivatedRoute) {
   }
 
   afuConfig = {
@@ -428,8 +428,21 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
+    this.userId = this.route.snapshot.paramMap.get('userId');
     this.fetchSpeciality();
     this.findProfileById();
+  }
+
+  goHome() {
+    this.router.navigate(['/home', {userId: this.userId}]);
+  }
+
+  goProfile() {
+    this.router.navigate(['/profile', {userId: this.userId}]);
+  }
+
+  goAdmin() {
+    this.router.navigate(['/admin', {userId: this.userId}]);
   }
 
   logout() {
@@ -453,10 +466,13 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   findProfileById() {
-    this.profileService.findProfileById()
-      .then((response) => {
-        this.renderUser(response);
-      });
+    if (this.userId !== 'null') {
+      this.profileService.findProfileById(this.userId)
+        .then((response) => {
+          this.renderUser(response);
+        });
+    }
+
   }
 
   renderUser(user) {
@@ -593,7 +609,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   findDocById(args) {
-    this.router.navigate(['/data', {id: args}]);
+    this.router.navigate(['/data', {id: args, userId: this.userId}]);
   }
 
 

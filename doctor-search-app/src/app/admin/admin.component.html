@@ -130,7 +130,7 @@
     <p class="col-3">
       <mat-form-field class="full-width dropdownAdjust">
         <mat-select placeholder="Doctor" [(ngModel)]="newApp.doctorUID">
-          <mat-option *ngFor="let role of roleDoctorList" [value]="role.value">
+          <mat-option *ngFor="let role of roleDoctorList" [value]="role.uid">
             {{role.viewValue}}
           </mat-option>
         </mat-select>

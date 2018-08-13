@@ -73,10 +73,12 @@ export class AdminComponent implements OnInit {
 
   constructor(private profileService: ProfileService, private router: Router,
               private loginService: LoginService, public dialog: MatDialog,
-              private adminService: AdminService, private upload: UploadService) {
+              private adminService: AdminService, private upload: UploadService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.userId = this.route.snapshot.paramMap.get('userId');
     this.findProfileById();
     this.fetchAllUsers();
   }
@@ -97,7 +99,9 @@ export class AdminComponent implements OnInit {
 
   createUser(user) {
     this.loginService.registerUser(user, user.role)
-      .then(this.registerSuccess.bind(this))
+      .then((response) => {
+        this.registerSuccess(response[1]);
+      })
       .then(() => {
         this.userForm = false;
         this.fetchAllUsers();
@@ -167,7 +171,7 @@ export class AdminComponent implements OnInit {
   }
 
   registerSuccess(str) {
-    if (str === true) {
+    if (str === 'true') {
       $.toast({
         heading: 'Success',
         text: 'User created successfully.',
@@ -293,7 +297,7 @@ export class AdminComponent implements OnInit {
 
   deleteFile(id) {
     console.log(id);
-    this.upload.delete(id)
+    this.upload.delete(id, this.userId)
       .then((response) => {
         console.log(response);
         this.deleteFileSuccess();
@@ -344,7 +348,7 @@ export class AdminComponent implements OnInit {
 
   findProfileById() {
     this.loading = true;
-    this.profileService.findProfileById()
+    this.profileService.findProfileById(this.userId)
       .then((response) => {
         this.renderUser(response);
       });

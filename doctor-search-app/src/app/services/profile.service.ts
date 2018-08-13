@@ -9,10 +9,9 @@ export class ProfileService {
   constructor() {
   }
 
-  findProfileById() {
-    return fetch(this.profileURL, {
-      method: 'get',
-      credentials: 'include',
+  findProfileById(userId) {
+    return fetch(this.profileURL + '/' + userId, {
+      method: 'get'
     })
       .then(function (response) {
         if (response.status === 500) {
@@ -23,10 +22,9 @@ export class ProfileService {
       });
   }
 
-  updateProfile(user) {
-    return fetch(this.profileURL, {
+  updateProfile(user, userId) {
+    return fetch(this.profileURL + '/' + userId, {
       method: 'put',
-      credentials: 'same-origin',
       body: JSON.stringify(user),
       headers: {
         'content-type': 'application/json'

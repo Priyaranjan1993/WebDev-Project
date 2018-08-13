@@ -8,7 +8,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 declare var $: any;
 
-export interface DialogData {
+export interface NewDialogData {
   name: string;
   phone: string;
   email: string;
@@ -43,19 +43,34 @@ export class ProfileComponent implements OnInit {
   uid;
   maxDate = new Date();
 
-/*  $: any;*/
+  /*  $: any;*/
 
   constructor(private profileService: ProfileService, private router: Router,
-              private loginService: LoginService, public dialog: MatDialog) {
+              private loginService: LoginService, public dialog: MatDialog,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.findProfileById();
+    this.userId = this.route.snapshot.paramMap.get('userId');
+    this.findProfileById(this.userId);
     this.fetchAppointments();
   }
 
-  findProfileById() {
-    this.profileService.findProfileById()
+  goHome() {
+    this.router.navigate(['/home', {userId: this.userId}]);
+  }
+
+  goProfile() {
+    this.router.navigate(['/profile', {userId: this.userId}]);
+  }
+
+  goAdmin() {
+    this.router.navigate(['/admin', {userId: this.userId}]);
+  }
+
+
+  findProfileById(userId) {
+    this.profileService.findProfileById(userId)
       .then((response) => {
         this.renderUser(response);
       })
@@ -118,12 +133,12 @@ export class ProfileComponent implements OnInit {
       address: profile.address,
       dateOfBirth: profile.dateOfBirth
     };
-    this.profileService.updateProfile(user)
+    this.profileService.updateProfile(user, this.userId)
       .then((response) => {
         this.success(response);
       })
       .then(() => {
-        this.findProfileById();
+        this.findProfileById(this.userId);
       });
   }
 
@@ -257,7 +272,7 @@ export class UserInfoDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<UserInfoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: NewDialogData) {
   }
 
   onNoClick(): void {

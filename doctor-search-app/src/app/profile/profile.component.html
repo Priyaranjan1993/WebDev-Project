@@ -7,16 +7,16 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item extra-padding">
-        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" (click)="goHome()">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active extra-padding">
-        <a class="nav-link" href="/profile">
-          <span *ngIf="userRole==='user' || userRole==='admin'">Profile</span>
+        <a class="nav-link" (click)="goProfile()">
+          <span *ngIf="userRole==='user' || userRole==='admin'" >Profile</span>
           <span *ngIf="userRole==='doctor'">Manage</span>
         </a>
       </li>
       <li class="nav-item" class="extra-padding">
-        <a class="nav-link" *ngIf="profile.username === 'admin'" href="/admin">Admin</a>
+        <a class="nav-link" *ngIf="profile.username === 'admin'" (click)="goAdmin()">Admin</a>
       </li>
     </ul>
     <span id="username">{{profile.username}}</span>
@@ -113,12 +113,12 @@
 
 <hr class="hr-text" data-content="Document Uploads" *ngIf="userRole==='user'">
 
-<app-form-upload *ngIf="userRole==='user'"></app-form-upload>
+<app-form-upload [userId]=userId *ngIf="userRole==='user'"></app-form-upload>
 
 <br/>
 <br/>
 
-<app-list-upload *ngIf="userRole==='user'"></app-list-upload>
+<app-list-upload [userId]=userId *ngIf="userRole==='user'"></app-list-upload>
 
 
 <hr class="hr-text" data-content="Appointments" *ngIf="userRole==='user'">

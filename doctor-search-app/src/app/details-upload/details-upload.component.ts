@@ -16,12 +16,12 @@ export class DetailsUploadComponent implements OnInit {
   ngOnInit() {
   }
 
-  delete(id) {
+/*  delete(id) {
     console.log(id);
     this.upload.delete(id)
       .then((response) => {
         console.log(response);
       });
-  }
+  }*/
 
 }

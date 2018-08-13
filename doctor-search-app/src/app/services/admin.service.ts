@@ -14,8 +14,7 @@ export class AdminService {
 
   fetchAllUsers() {
     return fetch(this.allUsersURL, {
-      method: 'get',
-      credentials: 'include',
+      method: 'get'
     })
       .then(function (response) {
         return response.json();
@@ -25,7 +24,6 @@ export class AdminService {
   updatePatientProfile(userId, user) {
     return fetch(this.adminURL + '/updateProfile/' + userId, {
       method: 'put',
-      credentials: 'same-origin',
       body: JSON.stringify(user),
       headers: {
         'content-type': 'application/json'
@@ -38,8 +36,7 @@ export class AdminService {
 
   deleteUser(userId) {
     return fetch(this.allUsersURL + '/' + userId, {
-      method: 'delete',
-      credentials: 'include',
+      method: 'delete'
     })
       .then(function (response) {
         return response;
@@ -48,8 +45,7 @@ export class AdminService {
 
   deleteAppointment(aid) {
     return fetch(this.appointmentURL + '/' + aid, {
-      method: 'delete',
-      credentials: 'include',
+      method: 'delete'
     })
       .then(function (response) {
         return response;
@@ -59,7 +55,6 @@ export class AdminService {
   createAppointment(data) {
     return fetch(this.adminURL + '/appointment', {
       method: 'post',
-      credentials: 'include',
       body: JSON.stringify(data),
       headers: {
         'content-type': 'application/json'

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   fgtPwd = false;
   fgtPwdEmail;
   docCheck = false;
-
+  userId;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -90,8 +90,12 @@ export class LoginComponent implements OnInit {
     }*/
 
   loginUser(user) {
+    this.userId = '';
     this.loginService.login(user)
-      .then(this.loginSuccess.bind(this));
+      .then((response) => {
+        this.userId = response[0];
+        this.loginSuccess(response[1], this.userId);
+      });
   }
 
   registerUser(user) {
@@ -100,7 +104,10 @@ export class LoginComponent implements OnInit {
       role = 'doctor';
     }
     this.loginService.registerUser(this.user, role)
-      .then(this.success.bind(this));
+      .then((response) => {
+        this.userId = response[0];
+        this.success(response[1], this.userId);
+      });
   }
 
   forgotPassword(emailID) {
@@ -146,8 +153,8 @@ export class LoginComponent implements OnInit {
 
   }
 
-  success(str) {
-    if (str === true) {
+  success(str, userId) {
+    if (str === 'true') {
       $.toast({
         heading: 'Success',
         text: 'User has been registered.',
@@ -157,7 +164,7 @@ export class LoginComponent implements OnInit {
       });
 
 
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/profile', {userId: userId}]);
     } else {
       $.toast({
         heading: 'Error',
@@ -170,8 +177,8 @@ export class LoginComponent implements OnInit {
   }
 
 
-  loginSuccess(str) {
-    if (str[1] === 'true') {
+  loginSuccess(str, userId) {
+    if (str === 'true') {
       $.toast({
         heading: 'Success',
         text: 'User logged in.',
@@ -180,7 +187,7 @@ export class LoginComponent implements OnInit {
         icon: 'success'
       });
 
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/profile', {userId: userId}]);
     } else {
       $.toast({
         heading: 'Error',

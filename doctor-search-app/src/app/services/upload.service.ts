@@ -14,12 +14,12 @@ export class UploadService {
   constructor(private http: HttpClient) {
   }
 
-  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file: File, userId: String): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
     const name = file.name;
     formdata.append('file', file);
 
-    const req = new HttpRequest('POST', '/post/' + name, formdata, {
+    const req = new HttpRequest('POST', '/post/' + name + '/' + userId, formdata, {
       reportProgress: true,
       responseType: 'text'
     });
@@ -27,22 +27,21 @@ export class UploadService {
     return this.http.request(req);
   }
 
-  getFiles() {
-    return fetch('/getallfiles', {
-      method: 'get',
-      credentials: 'include',
+  getFiles(userId) {
+    return fetch('/getallfiles/' + userId, {
+      method: 'get'
     })
       .then((response) => {
         return response.json();
       });
   }
 
-  delete(id) {
+  delete(id, userId) {
     return fetch('/deleteFiles/' + id,
       {
         method: 'DELETE'
       }).then((response) => {
-      this.getFiles();
+      this.getFiles(userId);
       return response;
     });
   }

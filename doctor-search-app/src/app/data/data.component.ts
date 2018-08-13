@@ -15,6 +15,7 @@ export interface DialogData {
   doctorName: string;
   requested: number;
   doctorUID: string;
+  appointmentName: string;
 }
 
 
@@ -25,7 +26,7 @@ export interface DialogData {
 })
 export class DataComponent implements OnInit {
   doctorId = '';
-  docProfileInfo: string[] = [];
+  docProfileInfo;
 
   profile = {
     username: ''
@@ -41,6 +42,7 @@ export class DataComponent implements OnInit {
 
   ngOnInit() {
     this.doctorId = this.route.snapshot.paramMap.get('id');
+    this.userId = this.route.snapshot.paramMap.get('userId');
     this.findProfileById();
     return fetch
     ('/2016-03-01/doctors/' + this.doctorId + '?user_key=737c87ec63ac3e77604e2fd4524f1308')
@@ -66,7 +68,7 @@ export class DataComponent implements OnInit {
       if (result !== undefined) {
         console.log(result);
 
-        this.appointmentService.createAppointment(result, this.doctorId)
+        this.appointmentService.createAppointment(result, this.doctorId, this.userId)
           .then(response => {
             console.log(response);
             this.success(response);
@@ -79,6 +81,18 @@ export class DataComponent implements OnInit {
   logout() {
     this.loginService.logout()
       .then(this.postLogout.bind(this));
+  }
+
+  goHome() {
+    this.router.navigate(['/home', {userId: this.userId}]);
+  }
+
+  goProfile() {
+    this.router.navigate(['/profile', {userId: this.userId}]);
+  }
+
+  goAdmin() {
+    this.router.navigate(['/admin', {userId: this.userId}]);
   }
 
   login() {
@@ -97,10 +111,13 @@ export class DataComponent implements OnInit {
   }
 
   findProfileById() {
-    this.profileService.findProfileById()
-      .then((response) => {
-        this.renderUser(response);
-      });
+    if (this.userId !== 'null') {
+      this.profileService.findProfileById(this.userId)
+        .then((response) => {
+          this.renderUser(response);
+        });
+    }
+
   }
 
   renderUser(user) {
@@ -131,8 +148,6 @@ export class DataComponent implements OnInit {
       });
     }
   }
-
-
 }
 
 @Component({
