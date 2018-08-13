@@ -171,14 +171,36 @@ export class AdminComponent implements OnInit {
     console.log(id);
     this.adminService.updatePatientProfile(id, data)
       .then((response) => {
+        this.updateUserSuccess();
         this.fetchAllUsers();
       });
+  }
+
+  deleteUserSuccess() {
+    $.toast({
+      heading: 'Success',
+      text: 'User deleted successfully.',
+      position: 'top-right',
+      hideAfter: 4000,
+      icon: 'success'
+    });
+  }
+
+  updateUserSuccess() {
+    $.toast({
+      heading: 'Success',
+      text: 'User updated successfully.',
+      position: 'top-right',
+      hideAfter: 4000,
+      icon: 'success'
+    });
   }
 
   deleteUser(id) {
     console.log(id);
     this.adminService.deleteUser(id)
       .then(() => {
+        this.deleteUserSuccess();
         this.fetchAllUsers();
       });
   }
@@ -255,6 +277,7 @@ export class AdminComponent implements OnInit {
     this.upload.delete(id)
       .then((response) => {
         console.log(response);
+        this.deleteFileSuccess();
         this.fetchAllUsers();
       });
   }
@@ -263,6 +286,16 @@ export class AdminComponent implements OnInit {
     $.toast({
       heading: 'Success',
       text: 'Appointment deleted successfully',
+      position: 'top-right',
+      hideAfter: 4000,
+      icon: 'success'
+    });
+  }
+
+  deleteFileSuccess() {
+    $.toast({
+      heading: 'Success',
+      text: 'File deleted successfully',
       position: 'top-right',
       hideAfter: 4000,
       icon: 'success'

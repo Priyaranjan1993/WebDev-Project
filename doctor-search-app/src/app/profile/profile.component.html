@@ -187,9 +187,9 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="approve(app)">Approve</button>
-          <button mat-raised-button (click)="reject(app)">Reject</button>
-          <button mat-raised-button (click)="fetchPatientInfo(app.userId)">User Info</button>
+          <button mat-raised-button (click)="fetchPatientInfo(app.userId)" class="info-btn">User Info</button>
+          <button mat-raised-button color="primary" (click)="approve(app)" class="aprej-btn">Approve</button>
+          <button mat-raised-button (click)="reject(app)" class="aprej-btn">Reject</button>
         </mat-card-actions>
       </mat-card>
     </div>

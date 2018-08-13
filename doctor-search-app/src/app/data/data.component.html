@@ -1,50 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">White Board</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navcss">
+  <a class="navbar-brand" href="#">Search Doctor</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
           aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item extra-padding">
+        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/profile">Profile</a>
+      <li class="nav-item extra-padding">
+        <a class="nav-link" href="/profile">
+          <span *ngIf="userRole==='user' || userRole==='admin'">Profile</span>
+          <span *ngIf="userRole==='doctor'">Manage</span>
+        </a>
+      </li>
+      <li class="nav-item" class="extra-padding">
+        <a class="nav-link" *ngIf="profile.username === 'admin'" href="/admin">Admin</a>
       </li>
     </ul>
-    <!--    <span id="username">{{profile.username}}</span>
-        <span class="navbar-text">
-          <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-        </span>-->
+    <mat-icon matSuffix class="profileIcon">account_circle</mat-icon>
+    <span id="username">{{profile.username}}</span>
+    <span class="navbar-text" id="logoutBtn">
+      <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+    </span>
   </div>
 </nav>
-
-<!--<table *ngIf="docProfileInfo">
-  <tr>
-    <th>Image</th>
-    <th>First Name</th>
-    <th>Middle Name</th>
-    <th>Last Name</th>
-    <th>Full Name</th>
-    <th>Title</th>
-    <th>Gender</th>
-    <th>Bio</th>
-
-  </tr>
-  <tr>
-    <td><img src={{docProfileInfo.profile.image_url}} alt="Image" style="width:100px;height:100px;"></td>
-    <td>{{docProfileInfo.profile.first_name}}</td>
-    <td>{{docProfileInfo.profile.middle_name}}</td>
-    <td>{{docProfileInfo.profile.last_name}}</td>
-    <td>{{docProfileInfo.profile.slug}}</td>
-    <td>{{docProfileInfo.profile.title}}</td>
-    <td>{{docProfileInfo.profile.gender}}</td>
-    <td>{{docProfileInfo.profile.bio}}</td>
-
-
-  </tr>
-</table>-->
 
 
 <img src={{docProfileInfo.profile.image_url}} alt="Image" style="width:100px;height:100px;" id="rounded-image">
@@ -60,7 +41,8 @@
   <span id="bioDivSpan">{{docProfileInfo.profile.bio}}</span>
 </div>
 
-<button mat-raised-button id="align-centre" (click)="createAppointment(docProfileInfo)">Request
+<button mat-raised-button *ngIf="userRole==='user'" id="align-centre" (click)="createAppointment(docProfileInfo)">
+  Request
   Appointment
 </button>
 

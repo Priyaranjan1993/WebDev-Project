@@ -1,3 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navcss">
+  <a class="navbar-brand" href="#">Search Doctor</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+          aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item extra-padding">
+        <a class="nav-link active" href="/home">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item extra-padding">
+        <a class="nav-link" href="/profile">
+          <span *ngIf="userRole==='user' || userRole==='admin'">Profile</span>
+          <span *ngIf="userRole==='doctor'">Manage</span>
+        </a>
+      </li>
+      <li class="nav-item" class="extra-padding">
+        <a class="nav-link" *ngIf="profile.username === 'admin'" href="/admin">Admin</a>
+      </li>
+    </ul>
+    <mat-icon matSuffix class="profileIcon">account_circle</mat-icon>
+    <span id="username">{{profile.username}}</span>
+    <span class="navbar-text" id="logoutBtn">
+      <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+    </span>
+  </div>
+</nav>
+
+
 <div id="main">
 
   <div class="form-row align-items-center" id="child1">
@@ -125,7 +155,7 @@
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <mat-label>Country</mat-label>
           <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="formControl"
-                 [matAutocomplete]="auto" [(ngModel)]="countryField">
+                 [matAutocomplete]="auto" [(ngModel)]="specific.countryField">
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
             The country needs to be USA for the API to work (Use Locate me Button)
@@ -139,7 +169,7 @@
 
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <input type="text" placeholder="State" aria-label="State" matInput [formControl]="formControl2"
-                 [matAutocomplete]="autoTest" [(ngModel)]="stateField">
+                 [matAutocomplete]="autoTest" [(ngModel)]="specific.stateField">
           <mat-label>State</mat-label>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
@@ -157,7 +187,7 @@
         <mat-form-field appearance="outline" class="example-full-width">
           <mat-label>Speciality</mat-label>
           <input type="text" placeholder="Speciality" aria-label="Speciality" matInput [formControl]="formControl3"
-                 [matAutocomplete]="autoTests" [(ngModel)]="specialityField" required>
+                 [matAutocomplete]="autoTests" [(ngModel)]="specific.specialityField" required>
           <mat-autocomplete autoActiveFirstOption #autoTests="matAutocomplete">
             <mat-option *ngFor="let sp of filteredSpeciality | async" [value]="sp">
               {{sp}}
@@ -167,14 +197,14 @@
 
         <mat-form-field appearance="outline" class="example-full-width">
           <mat-label>Disease</mat-label>
-          <input matInput placeholder="What is the disease" [(ngModel)]="diseaseField"
+          <input matInput placeholder="What is the disease" [(ngModel)]="specific.diseaseField"
                  [ngModelOptions]="{standalone: true}"
                  (change)="change()" required>
         </mat-form-field>
         <!--<p><span id="red">**</span> Results are only for US doctors. Location-wise search will be done in next release.</p>-->
         <button mat-raised-button id="search-doc"
                 matTooltip="Only US based results are shown"
-                (click)="onClickMe()">Search
+                (click)="specificSearch()">Search
         </button>
         <button mat-raised-button
                 matTooltip="Find my location"
@@ -199,6 +229,7 @@
 
 </div>
 
+<hr class="hr-text" data-content="List of searched results" *ngIf="apiDocData !== undefined">
 
 <div class="example-container mat-elevation-z8 resultTable" [hidden]="showTable">
   <div class="example-loading-shade"

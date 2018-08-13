@@ -67,14 +67,23 @@
   width: fit-content;
 }
 
-#bioDiv{
+#bioDiv {
   margin: 38px;
 }
 
-#align-centre{
+#align-centre {
   margin: 2% 45%;
 }
 
-.full-width{
+.full-width {
   width: 100%;
+}
+
+.mat-dialog-actions {
+  margin: 16px 0 0 0;
+  float: right;
+}
+
+.action-btn {
+  margin: 0 4px 0 0;
 }

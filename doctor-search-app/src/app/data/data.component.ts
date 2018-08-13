@@ -3,10 +3,11 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {AppointmentService} from '../services/appointment.service';
 import {ProfileService} from '../services/profile.service';
+import {LoginService} from '../services/login.service';
 
 declare var $: any;
 
@@ -26,11 +27,21 @@ export class DataComponent implements OnInit {
   doctorId = '';
   docProfileInfo: string[] = [];
 
-  constructor(private route: ActivatedRoute, public dialog: MatDialog, private appointmentService: AppointmentService) {
+  profile = {
+    username: ''
+  };
+  userId;
+  uid;
+  userRole;
+
+  constructor(private route: ActivatedRoute, public dialog: MatDialog, private appointmentService: AppointmentService,
+              private router: Router, private loginService: LoginService,
+              private profileService: ProfileService) {
   }
 
   ngOnInit() {
     this.doctorId = this.route.snapshot.paramMap.get('id');
+    this.findProfileById();
     return fetch
     ('/2016-03-01/doctors/' + this.doctorId + '?user_key=737c87ec63ac3e77604e2fd4524f1308')
       .then(response => response.json())
@@ -64,6 +75,38 @@ export class DataComponent implements OnInit {
 
     });
   }
+
+  logout() {
+    this.loginService.logout()
+      .then(this.postLogout.bind(this));
+  }
+
+  postLogout(data) {
+    $.toast({
+      heading: 'Success',
+      text: 'Logged out successfully',
+      position: 'top-right',
+      hideAfter: 3000,
+      icon: 'success'
+    });
+    this.router.navigate(['/login']);
+  }
+
+  findProfileById() {
+    this.profileService.findProfileById()
+      .then((response) => {
+        this.renderUser(response);
+      });
+  }
+
+  renderUser(user) {
+    console.log(user);
+    this.userId = user.id;
+    this.userRole = user.role;
+    this.uid = user.uid;
+    this.profile.username = user.username;
+  }
+
 
   success(response) {
     if (response === null) {

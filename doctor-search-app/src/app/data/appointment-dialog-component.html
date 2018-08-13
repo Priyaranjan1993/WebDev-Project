@@ -40,8 +40,8 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-raised-button color="secondary" (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="primary" class="shift-right" [mat-dialog-close]="data" cdkFocusInitial>
+  <button mat-raised-button color="secondary" (click)="onNoClick()" class="action-btn">Cancel</button>
+  <button mat-raised-button color="primary" class="shift-right action-btn" [mat-dialog-close]="data" cdkFocusInitial>
     <mat-icon matSuffix>done</mat-icon>
     Ok
   </button>

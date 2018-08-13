@@ -1,7 +1,11 @@
 import {Component, OnInit, AfterContentInit, ViewChild, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {LoginService} from '../services/login.service';
 import {Router} from '@angular/router';
+import {ProfileService} from '../services/profile.service';
+
+declare var $: any;
 
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
@@ -58,11 +62,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   doctorsId: string[] = [];
   doctorDetailedInfo: string[] = [];
   resultsLength;
-  baseUrl: String = 'http://localhost:4200';
-
-
   resultsMeta = [];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   isLoadingAPIResults = true;
@@ -71,8 +71,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
   tableColumns: string[] = ['firstName', 'middleName', 'lastName', 'gender', 'title', 'action'];
   doctorDatabase: DoctorApiHttpDao | null;
   showTable = true;
-
-
   general = {
     disease: '',
     firstName: '',
@@ -81,6 +79,18 @@ export class HomeComponent implements OnInit, AfterContentInit {
     gender: '',
   };
 
+  specific = {
+    countryField: '',
+    stateField: '',
+    specialityField: '',
+    diseaseField: ''
+  };
+  profile = {
+    username: ''
+  };
+  userId;
+  uid;
+  userRole;
   gender: Gender[] = [
     {value: 'male', viewValue: 'Male'},
     {value: 'female', viewValue: 'Female'}
@@ -393,7 +403,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
   fileUploads: Observable<Object>;
   @Input() fileUpload: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private loginService: LoginService,
+              private profileService: ProfileService) {
   }
 
   afuConfig = {
@@ -418,7 +429,40 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.fetchSpeciality();
+    this.findProfileById();
   }
+
+  logout() {
+    this.loginService.logout()
+      .then(this.postLogout.bind(this));
+  }
+
+  postLogout(data) {
+    $.toast({
+      heading: 'Success',
+      text: 'Logged out successfully',
+      position: 'top-right',
+      hideAfter: 3000,
+      icon: 'success'
+    });
+    this.router.navigate(['/login']);
+  }
+
+  findProfileById() {
+    this.profileService.findProfileById()
+      .then((response) => {
+        this.renderUser(response);
+      });
+  }
+
+  renderUser(user) {
+    console.log(user);
+    this.userId = user.id;
+    this.userRole = user.role;
+    this.uid = user.uid;
+    this.profile.username = user.username;
+  }
+
 
   ngAfterContentInit() {
     this.filteredStates = this.formControl2.valueChanges.pipe(
@@ -479,6 +523,36 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
       });
 
+  }
+
+  specificSearch() {
+    this.showTable = false;
+    this.doctorDatabase = new DoctorApiHttpDao(this.http);
+    merge(this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingAPIResults = true;
+          return this.doctorDatabase!.specificSearch(this.long, this.lat, this.specific, this.paginator.pageIndex);
+        }),
+        map(val => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingAPIResults = false;
+          this.resultsMeta = val.meta;
+          this.resultsLength = val.meta;
+
+          return val;
+        }),
+        catchError(() => {
+          this.isLoadingAPIResults = false;
+          // Catch if the GitHub API has reached its rate limit. Return empty data.
+          return observableOf([]);
+        })
+      ).subscribe(val => {
+      console.log(val);
+      /*this.apiData = val.data;*/
+      this.apiDocData = val;
+    });
   }
 
   generalSearch(model) {
@@ -609,10 +683,17 @@ export class DoctorApiHttpDao {
     const href = 'https://api.betterdoctor.com/2016-03-01/doctors';
     let reqUrl;
     if (model.gender === '') {
-      reqUrl = `${href}?name=${model.name}&first_name=${model.firstName}&last_name=${model.lastName}&query=${model.disease}&user_location=${longitude}%2C${latitude}&sort=distance-asc&fields=profile%2Cuid&skip=${page + 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
+      reqUrl = `${href}?name=${model.name}&first_name=${model.firstName}&last_name=${model.lastName}&query=${model.disease}&user_location=${longitude}%2C${latitude}&sort=distance-asc&fields=profile%2Cuid&skip=${page * 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
     } else {
-      reqUrl = `${href}?name=${model.name}&first_name=${model.firstName}&last_name=${model.lastName}&query=${model.disease}&user_location=${longitude}%2C${latitude}&gender=${model.gender}&sort=distance-asc&fields=profile%2Cuid&skip=${page + 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
+      reqUrl = `${href}?name=${model.name}&first_name=${model.firstName}&last_name=${model.lastName}&query=${model.disease}&user_location=${longitude}%2C${latitude}&gender=${model.gender}&sort=distance-asc&fields=profile%2Cuid&skip=${page * 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
     }
+    return this.http.get<DoctorApi>(reqUrl);
+  }
+
+  specificSearch(longitude: string, latitude: string, model, page: number): Observable<DoctorApi> {
+    const href = 'https://api.betterdoctor.com/2016-03-01/doctors';
+    let reqUrl;
+    reqUrl = `/2016-03-01/doctors?query=${model.diseaseField}&specialty_uid=${model.specialityField}&user_location=${longitude}%2C${latitude}&skip=${page * 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
     return this.http.get<DoctorApi>(reqUrl);
   }
 

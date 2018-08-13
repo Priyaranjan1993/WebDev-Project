@@ -1,5 +1,8 @@
 <h1 mat-dialog-title>User Information</h1>
 <div mat-dialog-content>
+
+  <hr class="hr-text" data-content="General User Information">
+
   <form class="example-form" nonvalidate #generalForm="ngForm">
 
     <mat-form-field appearance="standard" class="example-full-width hint-padding" class="full-width">
@@ -39,9 +42,11 @@
              [(ngModel)]="data.dateOfBirth" name="dob" #dob="ngModel" readonly>
       <mat-label>Date of Birth</mat-label>
       <mat-hint align="start">
-        Date of Birth of the patient.
+        Date of Birth of the patient.(yyyy-mm-dd)
       </mat-hint>
     </mat-form-field>
+
+    <hr class="hr-text" data-content="Uploaded Documents">
 
     <div *ngFor="let file of data.data">
       <div class="panel-body">

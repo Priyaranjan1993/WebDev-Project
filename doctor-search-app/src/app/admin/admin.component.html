@@ -48,7 +48,7 @@
     </p>
 
     <p class="col-3">
-      <mat-form-field>
+      <mat-form-field class="full-width">
         <mat-select placeholder="User Role" [(ngModel)]="newUser.role">
           <mat-option *ngFor="let role of roleList" [value]="role.value">
             {{role.viewValue}}
@@ -103,7 +103,7 @@
     </p>
 
     <p class="col-3">
-      <mat-form-field>
+      <mat-form-field class="full-width">
         <mat-select placeholder="User" [(ngModel)]="newApp.userId">
           <mat-option *ngFor="let role of roleUserList" [value]="role.value">
             {{role.viewValue}}
@@ -114,7 +114,7 @@
     </p>
 
     <p class="col-3">
-      <mat-form-field>
+      <mat-form-field class="full-width">
         <mat-select placeholder="Doctor" [(ngModel)]="newApp.doctorUID">
           <mat-option *ngFor="let role of roleDoctorList" [value]="role.value">
             {{role.viewValue}}
@@ -127,9 +127,6 @@
   </div>
   <button *ngIf="appointmentForm" mat-raised-button color="primary" (click)="createAppointment(newApp)">Create</button>
   <hr *ngIf="appointmentForm" class="hr-text">
-
-
-  <!--  uid,userid,requested date,name,docname-->
 
 </div>
 
@@ -235,19 +232,25 @@
                   <mat-form-field class="full-width" appearance="standard">
                     <mat-label>Status</mat-label>
                     <input matInput placeholder="Email" [(ngModel)]="app.confirmation">
-                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-icon matSuffix>timeline</mat-icon>
                     <mat-hint><b>false</b> - Pending, <b>true</b> - Confirmed, <b>cancelled</b> - Cancelled</mat-hint>
                   </mat-form-field>
 
                   <mat-form-field class="full-width" appearance="standard">
                     <mat-label>Comments</mat-label>
                     <input matInput placeholder="Email" [(ngModel)]="app.comments">
-                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-icon matSuffix>comment</mat-icon>
                     <mat-hint>Comments</mat-hint>
                   </mat-form-field>
 
-                  <button mat-raised-button color="primary" (click)="updateAppointment(app)">Update</button>
-                  <button mat-raised-button color="warn" (click)="deleteAppointment(app.id)">Delete</button>
+                    <div class="btn-group-apt">
+                      <button mat-raised-button color="primary" (click)="updateAppointment(app)"
+                              id="btn-group-apt-update">Update
+                      </button>
+                      <button mat-raised-button color="warn" (click)="deleteAppointment(app.id)"
+                              id="btn-group-apt-delete">Delete
+                      </button>
+                    </div>
                 </div>
               </mat-expansion-panel>
 
@@ -264,17 +267,21 @@
                 <div *ngFor="let data of user.data">
 
                   <a href="{{data.url}}" target="_blank">{{data.title}}</a>
-                  <button mat-raised-button
+<!--                  <button mat-raised-button
                           matTooltip="Delete File"
                           (click)="deleteFile(data.id)">Delete
-                  </button>
+                  </button>-->
+                  <mat-icon matSuffix class="deleteIcon" matTooltip="Delete File" (click)="deleteFile(data.id)">delete_forever
+                  </mat-icon>
+
                 </div>
               </mat-expansion-panel>
 
             </mat-accordion>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="warn" (click)="deleteUser(user.id)">Delete</button>
+            <button mat-raised-button color="warn" (click)="deleteUser(user.id)" id="admin-user-delete-btn">Delete
+            </button>
           </mat-card-actions>
         </mat-card>
       </div>

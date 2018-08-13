@@ -1,4 +1,4 @@
-#zero-padding{
+#zero-padding {
   padding: 0;
 }
 
@@ -20,7 +20,7 @@
   float: right;
 }
 
-#loaderCSS{
+#loaderCSS {
   margin: 10% 0 0 47%;
 }
 
@@ -28,7 +28,7 @@
   max-width: 400px;
 }
 
-.appointmentName{
+.appointmentName {
   font-weight: bold;
   text-decoration: underline;
 }
@@ -89,7 +89,7 @@
   color: darkgrey;
 }
 
-.full-width{
+.full-width {
   width: 100%;
 }
 
@@ -104,7 +104,6 @@
   top: 27px;
 }
 
-
 .example-card {
   max-width: 400px;
 }
@@ -118,3 +117,28 @@
   justify-content: space-between;
   align-items: center;
 }
+
+#admin-user-delete-btn {
+  margin: 0 0 12px 18px;
+}
+
+.btn-group-apt {
+  margin: 0 0 0 37%;
+}
+
+#btn-group-apt-update {
+  margin: 0 15px 0 0;
+}
+
+#btn-group-apt-delete {
+  margin: 0 -9px 0 0px;
+}
+
+.deleteIcon {
+  color: red;
+  position: relative;
+  margin: 0px 0 0 5px;
+  top: 7px;
+  cursor: pointer;
+}
+
