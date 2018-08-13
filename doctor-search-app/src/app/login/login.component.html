@@ -44,12 +44,12 @@
           Username is required.
         </mat-error>
         <input type="password" [(ngModel)]="user.regPassword" #regPassword="ngModel" id="regPassword"
-               class="fadeIn third" name="Password" placeholder="Password" minlength="4" required>
+               class="fadeIn third" name="Password" placeholder="Password" minlength="3" required>
         <mat-error class="error-styling" *ngIf="regPassword.errors?.required && regPassword.touched">
           Password is required.
         </mat-error>
         <mat-error class="error-styling" *ngIf="regPassword.errors?.minlength && regPassword.touched">
-          Please enter minimum of 4 characters.
+          Please enter minimum of 3 characters.
         </mat-error>
         <input type="password" [(ngModel)]="user.regConfirmPassword" #regConfirmPassword="ngModel" id="regPasswordConfirm"
                class="fadeIn fourth" name="Confirm Password" placeholder="Confirm Password" required>
