@@ -108,6 +108,14 @@ export class AdminComponent implements OnInit {
       });
   }
 
+  closeUser() {
+    this.userForm = false;
+    this.newUser.regPassword = '';
+    this.newUser.regUsername = '';
+    this.newUser.role = '';
+    this.newUser.uid = '';
+  }
+
   createAppointment(app) {
     app.doctorName = this.docMap.get(app.doctorUID);
     this.adminService.createAppointment(app)
@@ -124,6 +132,17 @@ export class AdminComponent implements OnInit {
         this.fetchAllUsers();
         this.success(response);
       });
+  }
+
+  closeAppointment() {
+    this.appointmentForm = false;
+    this.newApp.doctorName = '',
+      this.newApp.doctorUID = '',
+      this.newApp.requested = '',
+      this.newApp.confirmation = 'false',
+      this.newApp.comments = '',
+      this.newApp.name = '',
+      this.newApp.userId = '';
   }
 
 
@@ -281,6 +300,7 @@ export class AdminComponent implements OnInit {
         this.fetchAllUsers();
       });
   }
+
 
   deleteAppointmentSuccess() {
     $.toast({

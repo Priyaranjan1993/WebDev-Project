@@ -91,6 +91,25 @@
 
 .full-width {
   width: 100%;
+  padding: 0 50px 0 50px;
+}
+
+.modDiv {
+  margin: 0 0 0 0%;
+}
+
+.dropdownAdjust {
+  position: relative;
+  top: 9px;
+}
+
+.btn-adjust {
+  margin: 4% 2% 0 44%;
+}
+
+.fab-btn-css{
+  margin: 1% 2%;
+  outline: none;
 }
 
 #username {

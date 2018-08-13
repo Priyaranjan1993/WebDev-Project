@@ -15,7 +15,11 @@ export class ProfileService {
       credentials: 'include',
     })
       .then(function (response) {
-        return response.json();
+        if (response.status === 500) {
+          return null;
+        } else {
+          return response.json();
+        }
       });
   }
 

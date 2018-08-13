@@ -27,8 +27,14 @@
 </nav>
 
 <div>
-  <button mat-raised-button color="primary" (click)="openCreateUserFields()">Create User</button>
-  <div class="form-row" *ngIf="userForm">
+  <!-- <button mat-raised-button color="primary" (click)="openCreateUserFields()">Create User</button>-->
+  <button mat-mini-fab color="primary" (click)="openCreateUserFields()" matTooltip="Create User" class="fab-btn-css">
+    <mat-icon matSuffix>person_add</mat-icon>
+  </button>
+
+  <hr class="hr-text" data-content="Create User" *ngIf="userForm">
+  <div class="form-row modDiv" *ngIf="userForm">
+
     <p class="col-3">
       <mat-form-field class="full-width" appearance="standard">
         <mat-label>Username</mat-label>
@@ -48,7 +54,7 @@
     </p>
 
     <p class="col-3">
-      <mat-form-field class="full-width">
+      <mat-form-field class="full-width dropdownAdjust">
         <mat-select placeholder="User Role" [(ngModel)]="newUser.role">
           <mat-option *ngFor="let role of roleList" [value]="role.value">
             {{role.viewValue}}
@@ -69,13 +75,21 @@
 
   </div>
 
-  <button *ngIf="userForm" mat-raised-button color="primary" (click)="createUser(newUser)">Create</button>
+  <button *ngIf="userForm" mat-raised-button color="primary" (click)="createUser(newUser)" class="btn-adjust">Create</button>
+  <button *ngIf="userForm" mat-raised-button (click)="closeUser()">Close</button>
   <hr *ngIf="userForm" class="hr-text">
 </div>
 
 <div>
 
-  <button mat-raised-button color="primary" (click)="openCreateAppointmentFields()">Create Appointment</button>
+  <!--<button mat-raised-button color="primary" (click)="openCreateAppointmentFields()">Create Appointment</button>-->
+
+  <button mat-mini-fab color="primary" (click)="openCreateAppointmentFields()"
+          matTooltip="Create Appointment" class="fab-btn-css">
+    <mat-icon matSuffix>meeting_room</mat-icon>
+  </button>
+
+  <hr class="hr-text" data-content="Create Appointment" *ngIf="appointmentForm">
   <div class="form-row" *ngIf="appointmentForm">
 
     <p class="col-3">
@@ -103,7 +117,7 @@
     </p>
 
     <p class="col-3">
-      <mat-form-field class="full-width">
+      <mat-form-field class="full-width dropdownAdjust">
         <mat-select placeholder="User" [(ngModel)]="newApp.userId">
           <mat-option *ngFor="let role of roleUserList" [value]="role.value">
             {{role.viewValue}}
@@ -114,7 +128,7 @@
     </p>
 
     <p class="col-3">
-      <mat-form-field class="full-width">
+      <mat-form-field class="full-width dropdownAdjust">
         <mat-select placeholder="Doctor" [(ngModel)]="newApp.doctorUID">
           <mat-option *ngFor="let role of roleDoctorList" [value]="role.value">
             {{role.viewValue}}
@@ -125,7 +139,9 @@
     </p>
 
   </div>
-  <button *ngIf="appointmentForm" mat-raised-button color="primary" (click)="createAppointment(newApp)">Create</button>
+  <button *ngIf="appointmentForm" mat-raised-button color="primary" class="btn-adjust"
+          (click)="createAppointment(newApp)">Create</button>
+  <button *ngIf="appointmentForm" mat-raised-button (click)="closeAppointment()">Close</button>
   <hr *ngIf="appointmentForm" class="hr-text">
 
 </div>
@@ -243,14 +259,14 @@
                     <mat-hint>Comments</mat-hint>
                   </mat-form-field>
 
-                    <div class="btn-group-apt">
-                      <button mat-raised-button color="primary" (click)="updateAppointment(app)"
-                              id="btn-group-apt-update">Update
-                      </button>
-                      <button mat-raised-button color="warn" (click)="deleteAppointment(app.id)"
-                              id="btn-group-apt-delete">Delete
-                      </button>
-                    </div>
+                  <div class="btn-group-apt">
+                    <button mat-raised-button color="primary" (click)="updateAppointment(app)"
+                            id="btn-group-apt-update">Update
+                    </button>
+                    <button mat-raised-button color="warn" (click)="deleteAppointment(app.id)"
+                            id="btn-group-apt-delete">Delete
+                    </button>
+                  </div>
                 </div>
               </mat-expansion-panel>
 
@@ -267,11 +283,12 @@
                 <div *ngFor="let data of user.data">
 
                   <a href="{{data.url}}" target="_blank">{{data.title}}</a>
-<!--                  <button mat-raised-button
-                          matTooltip="Delete File"
-                          (click)="deleteFile(data.id)">Delete
-                  </button>-->
-                  <mat-icon matSuffix class="deleteIcon" matTooltip="Delete File" (click)="deleteFile(data.id)">delete_forever
+                  <!--                  <button mat-raised-button
+                                            matTooltip="Delete File"
+                                            (click)="deleteFile(data.id)">Delete
+                                    </button>-->
+                  <mat-icon matSuffix class="deleteIcon" matTooltip="Delete File" (click)="deleteFile(data.id)">
+                    delete_forever
                   </mat-icon>
 
                 </div>

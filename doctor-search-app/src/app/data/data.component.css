@@ -87,3 +87,13 @@
 .action-btn {
   margin: 0 4px 0 0;
 }
+
+.loginBtn{
+  margin: 14px 0 0 0;
+  float: right;
+}
+
+.homeBtn{
+  position: relative;
+  top: -6px;
+}

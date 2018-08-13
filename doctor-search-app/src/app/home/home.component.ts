@@ -437,6 +437,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
       .then(this.postLogout.bind(this));
   }
 
+  login() {
+    this.router.navigate(['/login']);
+  }
+
   postLogout(data) {
     $.toast({
       heading: 'Success',
@@ -456,11 +460,13 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   renderUser(user) {
-    console.log(user);
-    this.userId = user.id;
-    this.userRole = user.role;
-    this.uid = user.uid;
-    this.profile.username = user.username;
+    if (user !== null) {
+      console.log(user);
+      this.userId = user.id;
+      this.userRole = user.role;
+      this.uid = user.uid;
+      this.profile.username = user.username;
+    }
   }
 
 

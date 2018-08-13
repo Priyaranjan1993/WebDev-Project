@@ -19,7 +19,6 @@
         <a class="nav-link" *ngIf="profile.username === 'admin'" href="/admin">Admin</a>
       </li>
     </ul>
-    <mat-icon matSuffix class="profileIcon">account_circle</mat-icon>
     <span id="username">{{profile.username}}</span>
     <span class="navbar-text" id="logoutBtn">
       <button mat-raised-button color="primary" (click)="logout()">Logout</button>

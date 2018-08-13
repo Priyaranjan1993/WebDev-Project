@@ -79,7 +79,7 @@ body {
   padding: 0 8%;
 }
 
-#logoutBtn {
+.logoutBtn {
   float: right;
 }
 

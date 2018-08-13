@@ -81,6 +81,10 @@ export class DataComponent implements OnInit {
       .then(this.postLogout.bind(this));
   }
 
+  login() {
+    this.router.navigate(['/login']);
+  }
+
   postLogout(data) {
     $.toast({
       heading: 'Success',
