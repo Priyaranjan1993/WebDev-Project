@@ -715,7 +715,7 @@ export class DoctorApiHttpDao {
   specificSearch(longitude: string, latitude: string, model, page: number): Observable<DoctorApi> {
     const href = 'https://api.betterdoctor.com/2016-03-01/doctors';
     let reqUrl;
-    reqUrl = `/2016-03-01/doctors?query=${model.diseaseField}&specialty_uid=${model.specialityField}&user_location=${longitude}%2C${latitude}&skip=${page * 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
+    reqUrl = `${href}?query=${model.diseaseField}&specialty_uid=${model.specialityField}&user_location=${longitude}%2C${latitude}&skip=${page * 10}&limit=10&user_key=737c87ec63ac3e77604e2fd4524f1308`;
     return this.http.get<DoctorApi>(reqUrl);
   }
 

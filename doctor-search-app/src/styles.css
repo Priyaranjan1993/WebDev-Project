@@ -5,6 +5,11 @@
 *{
   font-family: 'Raleway', sans-serif;
 }
+
+a.navbar-brand {
+  cursor: pointer;
+}
+
 body {
   background-color: #f6f6f6 !important;
   overflow-x: hidden;

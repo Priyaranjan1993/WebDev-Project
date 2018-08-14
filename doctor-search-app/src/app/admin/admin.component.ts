@@ -97,6 +97,22 @@ export class AdminComponent implements OnInit {
     this.appointmentForm = true;
   }
 
+  goHome() {
+    this.router.navigate(['/home', {userId: this.userId}]);
+  }
+
+  goProfile() {
+    this.router.navigate(['/profile', {userId: this.userId}]);
+  }
+
+  goAdmin() {
+    this.router.navigate(['/admin', {userId: this.userId}]);
+  }
+
+  login() {
+    this.router.navigate(['/login']);
+  }
+
   createUser(user) {
     this.loginService.registerUser(user, user.role)
       .then((response) => {

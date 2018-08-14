@@ -82,6 +82,7 @@ export class DataComponent implements OnInit {
           .then(response => {
             console.log(response);
             this.success(response);
+            this.findPatientsOfDoctor(this.doctorId);
           });
       }
 

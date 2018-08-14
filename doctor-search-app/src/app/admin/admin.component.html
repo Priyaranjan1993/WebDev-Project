@@ -1,28 +1,34 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navcss">
-  <a class="navbar-brand" href="#">Search Doctor</a>
+  <a class="navbar-brand" (click)="goHome()">Search Doctor</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
           aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item active extra-padding">
+        <a class="nav-link" (click)="goHome()">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/profile">
+      <li class="nav-item extra-padding" *ngIf="userRole==='user' || userRole==='admin' || userRole==='doctor'">
+        <a class="nav-link" (click)="goProfile()">
           <span *ngIf="userRole==='user' || userRole==='admin'">Profile</span>
           <span *ngIf="userRole==='doctor'">Manage</span>
         </a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" *ngIf="userRole === 'admin'" href="/admin">Admin</a>
+      <li class="nav-item" class="extra-padding" *ngIf="userRole==='admin'">
+        <a class="nav-link" *ngIf="profile.username === 'admin'" (click)="goAdmin()">Admin</a>
       </li>
     </ul>
-    <span id="username">{{admin.username}}</span>
-    <span class="navbar-text" id="logoutBtn">
+    <span id="username"
+          *ngIf="userRole==='user' || userRole==='admin' || userRole==='doctor'">{{profile.username}}</span>
+    <span class="navbar-text logoutBtn" *ngIf="userRole==='user' || userRole==='admin' || userRole==='doctor'">
       <button mat-raised-button color="primary" (click)="logout()">Logout</button>
     </span>
+
+    <span class="navbar-text logoutBtn" *ngIf="userRole=== undefined">
+      <button mat-raised-button color="primary" (click)="login()">Login</button>
+    </span>
+
   </div>
 </nav>
 
