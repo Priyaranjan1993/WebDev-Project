@@ -51,3 +51,20 @@
   Appointment
 </button>
 
+
+<hr class="hr-text" data-content="Users who took appointments with the Doctor">
+<div class="container-fluid">
+  <span *ngIf="patientsList.length === 0" class="watermark">No Patients yet</span>
+  <div class="row">
+    <div *ngFor="let patient of patientsList" class="tiles">
+      <mat-card class="example-card">
+        <mat-card-header class="example-card">
+          <mat-card-title>{{patient.username}}</mat-card-title>
+          <mat-card-subtitle *ngIf="patient.email!==''">{{patient.email}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="patient.phone!==''">{{patient.phone}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

@@ -34,6 +34,7 @@ export class DataComponent implements OnInit {
   userId;
   uid;
   userRole;
+  patientsList = [];
 
   constructor(private route: ActivatedRoute, public dialog: MatDialog, private appointmentService: AppointmentService,
               private router: Router, private loginService: LoginService,
@@ -44,12 +45,21 @@ export class DataComponent implements OnInit {
     this.doctorId = this.route.snapshot.paramMap.get('id');
     this.userId = this.route.snapshot.paramMap.get('userId');
     this.findProfileById();
+    this.findPatientsOfDoctor(this.doctorId);
     return fetch
     ('/2016-03-01/doctors/' + this.doctorId + '?user_key=737c87ec63ac3e77604e2fd4524f1308')
       .then(response => response.json())
       .then(results => {
         this.docProfileInfo = results.data;
         console.log(this.docProfileInfo);
+      });
+  }
+
+  findPatientsOfDoctor(doctorId) {
+    this.appointmentService.fetchPatients(doctorId)
+      .then(response => {
+        console.log(response);
+        this.patientsList = response;
       });
   }
 

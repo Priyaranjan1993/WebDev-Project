@@ -17,6 +17,7 @@ import {UploadService} from './services/upload.service';
 import {DetailsUploadComponent} from './details-upload/details-upload.component';
 import {ListUploadComponent} from './list-upload/list-upload.component';
 import {FormUploadComponent} from './form-upload/form-upload.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 
 import {CdkTableModule} from '@angular/cdk/table';
@@ -119,7 +120,8 @@ export class DemoMaterialModule {
     ListUploadComponent,
     FormUploadComponent,
     AppointmentDialogComponent,
-    UserInfoDialogComponent
+    UserInfoDialogComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

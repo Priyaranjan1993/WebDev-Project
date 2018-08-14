@@ -30,4 +30,19 @@ export class AppointmentService {
         return response.json();
       });
   }
+
+  fetchPatients(id) {
+    return fetch(this.appointmentUrl + '/user/' + id, {
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'GET'
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      });
+  }
+
+
 }

@@ -67,6 +67,8 @@
 
 .example-card {
   max-width: 400px;
+  font-family: 'Raleway', sans-serif;
+  border-radius: 16px;
 }
 
 .tiles {

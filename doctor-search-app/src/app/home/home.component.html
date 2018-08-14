@@ -48,7 +48,7 @@
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <mat-label>Country</mat-label>
           <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="formControl"
-                 [matAutocomplete]="auto" [(ngModel)]="countryField">
+                 [matAutocomplete]="auto" [(ngModel)]="countryField" readonly>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
             The country needs to be USA for the API to work (Use Locate me Button)
@@ -62,7 +62,7 @@
 
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <input type="text" placeholder="State" aria-label="State" matInput [formControl]="formControl2"
-                 [matAutocomplete]="autoTest" [(ngModel)]="stateField">
+                 [matAutocomplete]="autoTest" [(ngModel)]="stateField" readonly>
           <mat-label>State</mat-label>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
@@ -160,7 +160,7 @@
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <mat-label>Country</mat-label>
           <input type="text" placeholder="Country" aria-label="Country" matInput [formControl]="formControl"
-                 [matAutocomplete]="auto" [(ngModel)]="specific.countryField">
+                 [matAutocomplete]="auto" [(ngModel)]="specific.countryField" readonly>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
             The country needs to be USA for the API to work (Use Locate me Button)
@@ -174,7 +174,7 @@
 
         <mat-form-field appearance="outline" class="example-full-width hint-padding">
           <input type="text" placeholder="State" aria-label="State" matInput [formControl]="formControl2"
-                 [matAutocomplete]="autoTest" [(ngModel)]="specific.stateField">
+                 [matAutocomplete]="autoTest" [(ngModel)]="specific.stateField" readonly>
           <mat-label>State</mat-label>
           <mat-hint align="start">
             <mat-icon matSuffix class="hint-warning-icon">error_outline</mat-icon>
