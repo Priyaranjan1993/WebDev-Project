@@ -26,7 +26,7 @@
   </div>
 </nav>
 
-<hr class="hr-text" data-content="Profile Information">
+<hr class="hr-text" data-content="Profile Information" *ngIf="userRole==='user' || userRole==='admin'">
 <form nonvalidate #profileForm="ngForm" *ngIf="userRole==='user' || userRole==='admin'">
   <div class="form-row">
     <p class="col-4">
