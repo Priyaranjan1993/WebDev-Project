@@ -6,7 +6,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active extra-padding">
+      <li class="nav-item extra-padding">
         <a class="nav-link" (click)="goHome()">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item extra-padding" *ngIf="userRole==='user' || userRole==='admin' || userRole==='doctor'">
@@ -15,7 +15,7 @@
           <span *ngIf="userRole==='doctor'">Manage</span>
         </a>
       </li>
-      <li class="nav-item" class="extra-padding" *ngIf="userRole==='admin'">
+      <li class="nav-item active extra-padding" *ngIf="userRole==='admin'">
         <a class="nav-link" *ngIf="admin.username === 'admin'" (click)="goAdmin()">Admin</a>
       </li>
     </ul>
